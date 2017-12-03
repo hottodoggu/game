@@ -78,7 +78,7 @@ class  Player {
                 texture_cache[texture_cache_index] = texture;
 
                 if (!texture_cache[texture_cache_index].loadFromFile(file_path)) {
-                    printf("Error loading file: %s", file_path);
+                    printf("# Error loading file: %s\n", file_path);
                     return EXIT_FAILURE;
                 }
 
@@ -110,7 +110,7 @@ class  Player {
 
             // Checks if you are dead.
             if (health <= 0 && !pause && !gameover) {
-                std::cout << "GAME OVER" << std::endl;
+                std::cout << "# GAME OVER\n" << std::endl;
                 pause = true;
                 gameover = true;
                 for (unsigned int i = 0; i < Enemy_list.size(); i++) {
@@ -155,8 +155,8 @@ class  Player {
             if (clips[equipped_clip] == 0) {
                 app->draw(draw_text("Reload!", 24, (width / 2) + 50, 2, 00, 255, 00));
             }
-            app->draw(draw_text("AMMO=" + std::to_string(clips[equipped_clip]), 24, 300, 2, 00, 255, 00));
-            app->draw(draw_text("CLIPS=" + std::to_string(clip_amount - equipped_clip), 24, 100, 2, 00, 255, 00));
+            app->draw(draw_text("AMMO:" + std::to_string(clips[equipped_clip]), 24, 300, 2, 00, 255, 00));
+            app->draw(draw_text("CLIPS:" + std::to_string(clip_amount - equipped_clip), 24, 100, 2, 00, 255, 00));
 
             if (health > 50)
                 app->draw(draw_text(std::to_string(health), 24, 2, 2, 00, 255, 00));
@@ -168,12 +168,12 @@ class  Player {
             //Player
             app->draw(player_sprite);
             if (pause && gameover)
-                app->draw(draw_text("--> YOU <-- suck, GAME OVER!", 50, 50, height / 2, 255, 00, 00));
+                app->draw(draw_text("GAME OVER", 50, 50, height / 2, 255, 00, 00));
 
         }
 
         Player(sf::RenderWindow &W, int Window_X, int Window_Y) {
-            printf("Initiating player class...");
+            printf("# Initiating player class...\n");
             srand(time(NULL));
             app = &W;
 
@@ -182,7 +182,7 @@ class  Player {
 
             // Load font
             if (!font.loadFromFile("fonts/Capture_it.ttf")) {
-                std::cout << "FAILED TO LOAD FONT" << std::endl;
+                std::cout << "# Error loading font\n" << std::endl;
             }
 
             Red.setFillColor(sf::Color(255, 00, 00, 30));
@@ -221,7 +221,7 @@ class  Player {
                 VA.push_back(player_line);
                 VA.push_back(rotation_line);
             }
-            printf("\tDone!\n\n");
+            printf("# Player Class initialized\n");
         }
 
         void shoot_f(bool steady = false) {
@@ -354,7 +354,7 @@ class  Player {
             if (!pause) {
                 int DeltaX, DeltaY, dist;
                 for (unsigned int i = 0; i < Enemy_list.size(); i++) {
-                    if (!Enemy_list.at(i)->dead) {
+                    if (!Enemy_list.at(i)->health <= 0) {
                         DeltaY = abs(Enemy_list.at(i)->enemyY - playerY);
                         DeltaX = abs(Enemy_list.at(i)->enemyX - playerX);
 

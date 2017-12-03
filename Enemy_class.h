@@ -17,9 +17,10 @@
 class Enemy{
 public:
     bool pause = false;
-    bool dead = false;
+    
 
-
+    int health = 100;
+    
     int load_sprite(sf::Sprite &S ,std::string file_path){
         /*
             Load texture into a 256 objects big cache
@@ -31,7 +32,7 @@ public:
             texture_cache[texture_cache_index] = texture;
 
             if(!texture_cache[texture_cache_index].loadFromFile(file_path)){
-                printf("Error loading file: %s", file_path);
+                printf("# Error loading file: %s", file_path);
                 return EXIT_FAILURE;
             }
 
@@ -43,11 +44,10 @@ public:
     }
 
     void event_loop(){
-        if (dead && !pause){
-            pause = true;
-
-
-        }
+	if(health <= 0){
+	  pause = true;
+	  
+	}
 
 
         if(!pause){
@@ -191,7 +191,7 @@ public:
         enemyY = SpawnY;
 
 
-        printf("Enemy spawned!\n");
+        printf("# Enemy spawned!\n");
 
         //Load enemy textures
         load_sprite(enemy_sprite, enemy_filepath);
@@ -202,7 +202,7 @@ public:
         enemy_sprite.setRotation(90);
         enemy_sprite.setPosition(sf::Vector2f(round(enemyX), round(enemyY)));
 
-        printf("!D!");
+        printf("");
     }
 
     void setTarget(sf::Sprite &t){
